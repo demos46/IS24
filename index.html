@@ -1,9 +1,1426 @@
-<html>
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta name="google-site-verification" content="ftFOlJETX-2KNjaPh8W6s8lhigItRuu9fOmjHZZ0nY0" />
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+  <title>Demo Page of "Phonetic Enhanced Language Modeling for Text-to-Speech Synthesis"</title>
+</head>
+<style type="text/css">
+  table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  audio {
+    width: 100%;
+  }
+
+  thead>tr>th:first-child {
+    width: 96px;
+  }
+
+  @media (max-width: 767px) {
+    .big-screen {
+      display: none;
+    }
+  }
+
+  @media (min-width: 767px) {
+    .small-screen {
+      display: none;
+    }
+  }
+
+.line{  /* Describes only positioning behaviour */
+    display: block; /* Not important, but helpful in this case */
+    clear: both;    /* Not important, but helpful in this case */
+}
+
+.line__figure{ /* Describes only positioning behaviour */
+    float:left;
+}
+
+.figure{ /* Describes only view representation. */
+    display: block; /* Not important, but helpful in this case */
+}
+
+.figure__image{
+    background: lightgray;
+    width: 500px;
+    height: 450px;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+.caption {
+    text-align: center;
+}
+</style>
 
 <body>
-  <h1>YOUR NAME</h1>
-  <p>Welcome to my website!</p>
-  <img src="https://content.codecademy.com/articles/github-pages-via-web-app/happy-ice-cream.gif" />
+  <header class="header">
+    <div class="jumbotron bg-secondary text-center">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <h1><a class="text-light">Demo Page of "Phonetic Enhanced Language Modeling for Text-to-Speech Synthesis"</h1><br>
+             <font size=5><span style="color:#FFFFFF"> Submitted to Interspeech 2024       </br>
+             <font size=3><span style="color:#000000"> 
+             </font><font size=4> <br> <br>   </a>  
+            <p>
+              <div class="row">
+              </div>
+            </p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="container">
+      <div class="row" id="result">
+        <div class="col-md-12">
+                    <h2>-------------------------------->   Abstract   <---------------------------------</h2>
+          <br />
+       <font size="4">
+Text-to-speech aims to synthesize human-like speech from text input. Recent language model based TTS frameworks demonstrate scalability and in-context learning capabilities. However, they often suffer from robustness issues, such as word mispronounication, deletion and repetition, caused by autoregressive language modeling. In this paper, we proposes a phonetic enhanced language modeling method to improve the performance of TTS models. We leverage self-supervised representations that are phonetically rich as the training target for the autoregressive language model. Subsequently, a non-autoregressive model is employed to predict discrete acoustic codecs that contain fine-grained acoustic details. The TTS model focuses solely on linguistic modeling during autoregressive training, thereby reducing the error propagation that occurs in non-autoregressive training. Both objective and subjective evaluations validate the effectiveness of our proposed method.
+                  <div class="big-screen">
+                    
+
+                  <p style="text-align:center;"> </p></br>
+
+We summarize our experiment setups as below:<br>
+
+- <b>VALL-E [1] (Baseline):</b> VALL-E utilizes a similar decoder-only language model and predicts the first layer of acoustic codecs autoregressively, followed by predicting the other layers non-autoregressively. <br>
+
+- <b>Proposed w/ Hubert (K = 500):</b> Our proposed phonetic enhanced language model based TTS, where Hubert feauters with a cluster size of 500 is used as the SSL tokens. <br>
+
+- <b>Proposed w/ Hubert (K = 1024):</b> Our proposed phonetic enhanced language model based TTS, where Hubert feauters with a cluster size of 10240 is used as the SSL tokens. <br>
+
+- <b>Proposed w/ WavLM (K = 500):</b>Our proposed phonetic enhanced language model based TTS, where WavLM feauters with a cluster size of 500 is used as the SSL tokens. <br>
+
+- <b>Proposed w/ WavLM (K = 1024):</b> Our proposed phonetic enhanced language model based TTS, where WavLM feauters with a cluster size of 1024 is used as the SSL tokens. <br>
+
+
+
+          <h2>---------------------------->   System Overview   <----------------------------</h2>
+          </br></br>
+<figure>
+  <img src="./Figure/IS.png" style="width:100%">
+  <figcaption>The overall diagram of proposed phonetic enhanced language model (LM) based text-to-speech framework. Given input text and an acoustic prompt, the autoregressive decoder predicts self-supervised learning (SSL) tokens that contain phonetic information, and the non-autoregressive decoder further predicts 8 layers of acoustic codecs that represent fine-grained acoustic details.</figcaption>
+</figure>
+</br>
+
+<h2>---------------------------->   Speech Samples <-----------------------------</h2>
+
+</br>
+
+                     <table class="table">
+                      <thead>
+                            <th colspan=7 style="color:blue;"><h4>Test set: Libritts (test-clean)</h4></th>
+
+                        <tr>
+                        </tr>
+                      <tbody>
+                                
+                                
+                                <tr>
+                                    
+                                    <th style="text-align:center;font-size:80%">   Acoustic Prompt </th>
+                                    <th style="text-align:center;font-size:80%">   VALL-E (Baseline) </th>
+                                    <th style="text-align:center;font-size:80%">   Proposed w/ Hubert (K = 500) </th>
+                                    <th style="text-align:center;font-size:80%">   Proposed w/ Hubert (K = 1024) </th>
+                                    <th style="text-align:center;font-size:80%">   Proposed w/ WavLM (K = 500) </th>
+                                    <th style="text-align:center;font-size:80%">   Proposed w/ WavLM (K = 1024) </th>
+                                    <th style="text-align:center;font-size:80%">   Ground-truth</th>
+                 
+
+                                </tr>
+
+                                    <th colspan=7 style="color:black;">
+
+
+                                      <h5>Synthesize Text: So that if you get once the right clue to any group of them, it will grasp the simplest, yet reach to the highest truths.</h5></th>
+                                                                <!-- single sentence -->
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Prompt/1188_133604_000040_000003.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Encodec/1188_133604_000045_000001-222.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_500/1188_133604_000045_000001-222.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_1024/1188_133604_000045_000001-222.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_500/1188_133604_000045_000001-222.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_1024/1188_133604_000045_000001-222.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Ground_truth/1188_133604_000045_000001.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                        <!-- single sentence -->
+
+                        <tr>
+             
+                         <th colspan=7 style="color:black;"><h5>Synthesize Text: The count advanced a step towards his friend, and pressed him warmly in his arms. </h5></th>
+                        </tr>
+                     
+                         
+
+                                                              
+
+                                <tr>
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Prompt/6930_75918_000042_000000.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Encodec/6930_75918_000050_000001-3619.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_500/6930_75918_000050_000001-3619.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_1024/6930_75918_000050_000001-3619.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_500/6930_75918_000050_000001-3619.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_1024/6930_75918_000050_000001-3619.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Ground_truth/6930_75918_000050_000001.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+
+<!-- single sentence -->
+
+                        <tr>
+             
+                         <th colspan=7 style="color:black;"><h5>Synthesize Text: Faithful to their legislative declaration they knew but one issue, slavery. </h5></th>
+                        </tr>
+                     
+                         
+
+                                                              
+
+                                <tr>
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Prompt/7729_102255_000034_000005.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Encodec/7729_102255_000004_000000-4133.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_500/7729_102255_000004_000000-4133.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_1024/7729_102255_000004_000000-4133.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_500/7729_102255_000004_000000-4133.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_1024/7729_102255_000004_000000-4133.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Ground_truth/7729_102255_000004_000000.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+
+
+
+
+         <!-- single sentence -->
+
+                        <tr>
+             
+                         <th colspan=7 style="color:black;"><h5>Synthesize Text: Let your actors have tea by all means, but see that it is a properly histrionic tea. </h5></th>
+                        </tr>
+                     
+                         
+
+                                                              
+
+                                <tr>
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Prompt/7176_92135_000022_000022.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Encodec/7176_92135_000070_000002-4096.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_500/7176_92135_000070_000002-4096.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_1024/7176_92135_000070_000002-4096.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_500/7176_92135_000070_000002-4096.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_1024/7176_92135_000070_000002-4096.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Ground_truth/7176_92135_000070_000002.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+ <!-- single sentence -->
+
+                        <tr>
+             
+                         <th colspan=7 style="color:black;"><h5>Synthesize Text: He wore a flannel cap and duck trousers, and the sleeves of his white flannel shirt were rolled back to the elbow. </h5></th>
+                        </tr>
+                     
+                         
+
+                                                              
+
+                                <tr>
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Prompt/237_134500_000004_000008.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Encodec/237_134493_000005_000001-1232.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_500/237_134493_000005_000001-1232.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_1024/237_134493_000005_000001-1232.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_500/237_134493_000005_000001-1232.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_1024/237_134493_000005_000001-1232.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Ground_truth/237_134493_000005_000001.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+ <!-- single sentence -->
+
+                        <tr>
+             
+                         <th colspan=7 style="color:black;"><h5>Synthesize Text: He stooped to the evil of hypocrisy with others, sceptical of their innocence which he could cajole so easily. </h5></th>
+                        </tr>
+                     
+                         
+
+                                                              
+
+                                <tr>
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Prompt/1089_134686_000034_000004.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Encodec/1089_134686_000011_000003-33.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_500/1089_134686_000011_000003-33.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_1024/1089_134686_000011_000003-33.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_500/1089_134686_000011_000003-33.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_1024/1089_134686_000011_000003-33.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Ground_truth/1089_134686_000011_000003.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+
+ <!-- single sentence -->
+
+                        <tr>
+             
+                         <th colspan=7 style="color:black;"><h5>Synthesize Text: Every plant in the grass is set formally, grows perfectly, and may be realized completely. </h5></th>
+                        </tr>
+                     
+                         
+
+                                                              
+
+                                <tr>
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Prompt/1188_133604_000040_000003.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Encodec/1188_133604_000048_000001-227.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_500/1188_133604_000048_000001-227.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_1024/1188_133604_000048_000001-227.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_500/1188_133604_000048_000001-227.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_1024/1188_133604_000048_000001-227.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Ground_truth/1188_133604_000048_000001.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+
+ <!-- single sentence -->
+
+                        <tr>
+             
+                         <th colspan=7 style="color:black;"><h5>Synthesize Text: Edison held that the electricity sold must be measured just like gas or water, and he proceeded to develop a meter. </h5></th>
+                        </tr>
+                     
+                         
+
+                                                              
+
+                                <tr>
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Prompt/2300_131720_000016_000014.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Encodec/2300_131720_000020_000003-1070.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_500/2300_131720_000020_000003-1070.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_1024/2300_131720_000020_000003-1070.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_500/2300_131720_000020_000003-1070.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_1024/2300_131720_000020_000003-1070.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Ground_truth/2300_131720_000020_000003.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+ <!-- single sentence -->
+
+                        <tr>
+             
+                         <th colspan=7 style="color:black;"><h5>Synthesize Text: Such consumption as falls to the women is merely incidental to their work; it is a means to their continued labour, and not a consumption directed to their own comfort and fulness of life. </h5></th>
+                        </tr>
+                     
+                         
+
+                                                              
+
+                                <tr>
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Prompt/3570_5695_000006_000003.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Encodec/3570_5694_000006_000002-1822.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_500/3570_5694_000006_000002-1822.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_1024/3570_5694_000006_000002-1822.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_500/3570_5694_000006_000002-1822.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_1024/3570_5694_000006_000002-1822.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Ground_truth/3570_5694_000006_000002.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                   <!-- single sentence -->
+
+                        <tr>
+             
+                         <th colspan=7 style="color:black;"><h5>Synthesize Text: The canon of reputability is at hand and seizes upon such innovations as are, according to its standard, fit to survive. </h5></th>
+                        </tr>
+                     
+                         
+
+                                                              
+
+                                <tr>
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Prompt/3570_5694_000014_000014.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Encodec/3570_5694_000009_000003-1850.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_500/3570_5694_000009_000003-1850.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Hubert_1024/3570_5694_000009_000003-1850.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_500/3570_5694_000009_000003-1850.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/WavLM_1024/3570_5694_000009_000003-1850.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-clean/Ground_truth/3570_5694_000009_000003.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+
+                      </tbody>
+                       
+                   </table>
+                    
+
+
+   
+
+                     <table class="table">
+                      <thead>
+                            <th colspan=7 style="color:blue;"><h4>Test set: Libritts (test-other)</h4></th>
+
+                        <tr>
+                        </tr>
+                      <tbody>
+                                
+                                
+                                <tr>
+                                    
+                                    <th style="text-align:center;font-size:80%">   Acoustic Prompt </th>
+                                    <th style="text-align:center;font-size:80%">   VALL-E (Baseline) </th>
+                                    <th style="text-align:center;font-size:80%">   Proposed w/ Hubert (K = 500) </th>
+                                    <th style="text-align:center;font-size:80%">   Proposed w/ Hubert (K = 1024) </th>
+                                    <th style="text-align:center;font-size:80%">   Proposed w/ WavLM (K = 500) </th>
+                                    <th style="text-align:center;font-size:80%">   Proposed w/ WavLM (K = 1024) </th>
+                                    <th style="text-align:center;font-size:80%">   Ground-truth</th>
+                 
+
+                                </tr>
+
+                                    <th colspan=7 style="color:black;">
+
+
+                                      <h5>Synthesize Text: The imagination is cultivated. A man puts himself in the place of another.</h5></th>
+                                                                <!-- single sentence -->
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Prompt/5764_299665_000118_000003.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Encodec/5764_299665_000065_000002-2843.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_500/5764_299665_000065_000002-2843.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_1024/5764_299665_000065_000002-2843.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_500/5764_299665_000065_000002-2843.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_1024/5764_299665_000065_000002-2843.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Ground_truth/5764_299665_000065_000002.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                       <tr><th colspan=7 style="color:black;"><h5>Synthesize Text: You must go on trying to improve your mind, said the pawnbroker fussily.</h5></th></tr>
+                                                                <!-- single sentence -->
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Prompt/1998_29455_000008_000001.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Encodec/1998_29454_000000_000002-120.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_500/1998_29454_000000_000002-120.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_1024/1998_29454_000000_000002-120.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_500/1998_29454_000000_000002-120.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_1024/1998_29454_000000_000002-120.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Ground_truth/1998_29454_000000_000002.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+
+
+                                     <tr><th colspan=7 style="color:black;"><h5>Synthesize Text: Why, only last month a brute of a dog bit me in the leg, at a back door Sutton way.</h5></th></tr>
+                                                                <!-- single sentence -->
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Prompt/1998_15444_000008_000001.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Encodec/1998_29454_000067_000002-216.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_500/1998_29454_000067_000002-216.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_1024/1998_29454_000067_000002-216.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_500/1998_29454_000067_000002-216.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_1024/1998_29454_000067_000002-216.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Ground_truth/1998_29454_000067_000002.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+
+                                                     <tr><th colspan=7 style="color:black;"><h5>Synthesize Text: From some mysterious source mr Beale had obtained an old double perambulator, which must have been made, Dickie thought, for very fat twins, it was so broad and roomy. </h5></th></tr>
+                                                                <!-- single sentence -->
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Prompt/1998_29455_000030_000001.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Encodec/1998_29455_000008_000001-242.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_500/1998_29455_000008_000001-242.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_1024/1998_29455_000008_000001-242.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_500/1998_29455_000008_000001-242.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_1024/1998_29455_000008_000001-242.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Ground_truth/1998_29455_000008_000001.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td> 
+
+
+                                                  <tr><th colspan=7 style="color:black;"><h5>Synthesize Text: I could do so much for all at home how I should enjoy that! And Polly let her thoughts revel in the luxurious future her fancy painted. </h5></th></tr>
+                                                                <!-- single sentence -->
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Prompt/3331_159609_000037_000000.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Encodec/3331_159605_000006_000002-750.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_500/3331_159605_000006_000002-750.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_1024/3331_159605_000006_000002-750.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_500/3331_159605_000006_000002-750.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_1024/3331_159605_000006_000002-750.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Ground_truth/3331_159605_000006_000002.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td> 
+
+
+                                                  <tr><th colspan=7 style="color:black;"><h5>Synthesize Text: This had an especial charm to Polly, for she soon found that this side of his character was not shown to every one. </h5></th></tr>
+                                                                <!-- single sentence -->
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Prompt/3331_159609_000039_000000.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Encodec/3331_159605_000013_000004-762.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_500/3331_159605_000013_000004-762.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_1024/3331_159605_000013_000004-762.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_500/3331_159605_000013_000004-762.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_1024/3331_159605_000013_000004-762.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Ground_truth/3331_159605_000013_000004.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td> 
+
+
+                                                  <tr><th colspan=7 style="color:black;"><h5>Synthesize Text: If you had a little more faith, and if you could have been in her cell, she would have cured your leg merely by touching it. She smiled.</h5></th></tr>
+                                                                <!-- single sentence -->
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Prompt/3528_168669_000045_000000.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Encodec/3528_168669_000066_000004-940.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_500/3528_168669_000066_000004-940.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_1024/3528_168669_000066_000004-940.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_500/3528_168669_000066_000004-940.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_1024/3528_168669_000066_000004-940.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Ground_truth/3528_168669_000066_000004.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>  
+
+                                                                       <tr><th colspan=7 style="color:black;"> <h5>Synthesize Text: General observations on preserves, confectionary, ices, and dessert dishes.</h5></th></tr>
+                                                                <!-- single sentence -->
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Prompt/3538_163622_000069_000000.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Encodec/3538_142836_000003_000000-1105.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_500/3538_142836_000003_000000-1105.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_1024/3538_142836_000003_000000-1105.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_500/3538_142836_000003_000000-1105.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_1024/3538_142836_000003_000000-1105.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Ground_truth/3538_142836_000003_000000.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>   
+
+                                                   <tr><th colspan=7 style="color:black;"> <h5>Synthesize Text: I did but laugh to think the sword of Ethelried had been so quickly found, responded the Jester, and he pointed to the scissors hanging from the Tailor's girdle.</h5></th></tr>
+                                                                <!-- single sentence -->
+
+                                <tr>
+                                  
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Prompt/4294_35475_000000_000001.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Encodec/4294_35475_000004_000000-1979.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_500/4294_35475_000004_000000-1979.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+
+                                                                                                      <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Hubert_1024/4294_35475_000004_000000-1979.wav"type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                                                    <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_500/4294_35475_000004_000000-1979.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>
+                                                                   <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/WavLM_1024/4294_35475_000004_000000-1979.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                
+                                  </td>
+
+                                  <td>
+                                    <audio controls>
+                                      <source src="./demo_page/test-other/Ground_truth/4294_35475_000004_000000.wav" type="audio/wav" />
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </td>   
+
+
+          </tbody>
+                       
+                   </table>
+
+[1]C. Wang, S. Chen, Y. Wu, Z. Zhang, L. Zhou, S. Liu, Z. Chen,
+Y. Liu, H. Wang, J. Li et al., “Neural codec language mod-
+els are zero-shot text to speech synthesizers,”
+
+
+                  </div>
+                 
+        </div>
+      </div>
+      <hr>
+      <div class="row" id="ref">
+        <div class="col">
+          <!--<h2>References</h2>
+          
+         -->
+        </div>
+      </div>
+      <hr>
+      <!-- <div class="row" id="contact">
+          <div class="col">
+            <h2>Contact</h2>
+            <div></div>
+          </div>
+        </div> -->
+    </div>
+  </main>
+  <footer class="bg-secondary text-light mt-4 pt-3 pb-2 ">
+    <div class="container">
+      <p class="text-center">
+        
+      </p>
+    </div>
+  </footer>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>
